@@ -208,7 +208,29 @@ function App() {
   return (
     <div data-theme={currentTheme} className="App">
       <header className="App-header">
-        {isTaylorVersion && <ThemeDropdown theme={theme} setTheme={setTheme}/>}
+        <div className ="left-div">
+          <div className="radio-group">
+            <div className="gr">
+              <input checked={!isTaylorVersion} type="radio" id="original" name="version" value="original"
+                onChange={() => {
+                  localStorage.setItem('version', 'original');
+                  setIsTaylorVersion(false)
+                  reset();
+                }}/>
+              <label for="original">ORIGINAL VERSION</label><br></br>
+            </div>
+            <div className="gr">
+              <input checked={isTaylorVersion} type="radio" id="taylor" name="version" value="taylor"
+                onChange={() => {
+                  localStorage.setItem('version', 'taylor');
+                  setIsTaylorVersion(true)
+                  reset();
+                }}/>
+              <label for="taylor">TAYLOR SWIFT VERSION</label><br></br>
+            </div>
+          </div>
+          {isTaylorVersion && <ThemeDropdown theme={theme} setTheme={setTheme}/>}
+        </div>
         <div className="header-container">
           <h1>Get your top tracks</h1>
           {isTaylorVersion && <h6>(Taylor's Version)</h6>}
@@ -246,12 +268,6 @@ function App() {
       <footer>
         <div>
           <a href="https://github.com/sophiali23" target="_blank">GitHub</a>
-          <a onClick={() => {
-            localStorage.setItem('version', isTaylorVersion ? 'original' : 'taylor');
-            setIsTaylorVersion(!isTaylorVersion)
-            reset();
-          }
-          }>{isTaylorVersion ? "Original Version" : "Taylor Swift Version"}</a>
           <a href="https://ko-fi.com/sophia_li" target="_blank">Donate</a>
         </div>
       </footer>
