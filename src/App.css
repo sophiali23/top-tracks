@@ -204,11 +204,11 @@ button, select, input, label {
 .typewriter {
   width: fit-content;
   overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: .15em solid #1DB954; /* The typwriter cursor */
+  border-right: .15em solid #1DB954; /* The typewriter cursor */
   white-space: nowrap; /* Keeps the content on a single line */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
   animation: 
-    typing 5s steps(40, end),
+    typing 5s steps(25, end),
     blink-caret .75s step-end infinite;
   color: var(--text-colour);
   font-weight: 500;
@@ -217,7 +217,7 @@ button, select, input, label {
 /* The typing effect */
 @keyframes typing {
   from { width: 0 }
-  to { width: 100% }
+  to { width: 205px }
 }
 
 /* The typewriter cursor effect */
@@ -344,6 +344,7 @@ dialog h2 {
   margin: 16px auto 0px 16px;
   gap: 10px;
   align-self: flex-start;
+  text-align: left;
 }
 
 .radio-group {
@@ -381,5 +382,8 @@ dialog h2 {
 }
 
 .limit {
+  display: flex;
+  gap: 6px;
+  align-items: center;
   color: var(--text-colour);
 }

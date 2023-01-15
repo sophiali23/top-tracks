@@ -1,10 +1,7 @@
-import {useEffect, useState} from "react";
-import './App.css';
-import Track from './track.js'
+import '../App.css';
 
 const ThemeDropdown = ({theme, setTheme}) => {
     const handleChange = (e) => {
-        console.log(e.target.value);
         setTheme(e.target.value);
         localStorage.setItem('theme', e.target.value);
     }

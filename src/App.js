@@ -2,68 +2,17 @@ import {useEffect, useState} from "react";
 import './App.css';
 import axios from 'axios';
 
-import TrackList from './tracklist.js'
-import ThemeDropdown from './themeDropdown.js'
+import TrackList from './components/tracklist.js'
+import ThemeDropdown from './components/themeDropdown.js'
+import SuccessModal from './components/successModal.js'
+import ErrorModal from './components/errorModal.js'
+import CreatePlaylistModal from './components/createPlaylistModal.js'
 
 const CLIENT_ID = "563ac9e8b72c42a2a8094f156ce2e8ac"
 const REDIRECT_URI = "http://localhost:3000"
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const RESPONSE_TYPE = "token"
 const SCOPE = "user-top-read playlist-modify-public playlist-modify-private user-read-private user-read-email"
-
-const SuccessModal = ({setSuccess}) => {
-  return(
-    <dialog className="modal" open>
-      <h2>You have successfully created a playlist.</h2>
-      <button onClick={() => setSuccess(false)}>Close</button>
-    </dialog>
-  )
-}
-
-const ErrorModal = ({setError, message}) => {
-  const errorMessage = message.match("401") ? "Sorry! There was an error with authenticating your Spotify account. You have a bad or expired token. Please re-authenticate by logging out and logging back in." 
-  : "Sorry! There was an error. Please refresh the page and try again.";
-  return(
-    <dialog className="modal error-modal" open>
-      <h3>{`${message}`}</h3>
-      <p>{errorMessage}</p>
-      <button onClick={() => setError("")}>Close</button>
-    </dialog>
-  )
-}
-
-const Modal = ({token, tracks, playlistName, setPlaylistName, playlistDescription, setPlaylistDescription, setShowModal, addTracksToNewPlaylist, setSuccess, setError}) => {
-  return (
-    <dialog className="modal" open>
-      <div className="t-container">
-        <label for="name">Name</label>
-        <input id="name" type="text" placeholder="Give your playlist a name" value={playlistName} onChange={(e) => {
-          setPlaylistName(e.target.value)}}/>
-        <label for="desc">Description</label>
-        <textarea id="desc" placeholder="Add an optional description" value={playlistDescription} onChange={(e) => setPlaylistDescription(e.target.value)}/>
-      </div>
-      <div className="buttons">
-        <button disabled={playlistName.length === 0} onClick={() => {
-          addTracksToNewPlaylist(token, tracks, playlistName, playlistDescription).then(result => {
-              setShowModal(false);
-              setSuccess(true)
-              setPlaylistName("")
-              setPlaylistDescription("")
-          }).catch(err => {
-            setShowModal(false);
-            setError(err.message);
-            setPlaylistName("")
-            setPlaylistDescription("")
-          })}}>Create</button>
-        <button className="cancel" onClick={() => {
-          setShowModal(false)
-          setPlaylistName("")
-          setPlaylistDescription("")
-        }}>Cancel</button>
-      </div>
-    </dialog>
-  )
-}
 
 const addTracksToNewPlaylist = async (token, tracks, playlistName, playlistDescription) => {
   if (tracks.length > 0) {
@@ -95,7 +44,7 @@ const addTracksToNewPlaylist = async (token, tracks, playlistName, playlistDescr
   }
 }
 
-const getTopTracks = async (token, timeRange, limit, setTopTracks, setError) => {
+const getTopTracks = async (token, timeRange, limit, setTopTracks, handleError) => {
   await axios.get("https://api.spotify.com/v1/me/top/tracks", {
     headers: {
       Authorization: `Bearer ${token}`
@@ -118,7 +67,7 @@ const getTopTracks = async (token, timeRange, limit, setTopTracks, setError) => 
           previewUrl: item.preview_url,
       })));
   }).catch(err => {
-    setError(err.message);
+    handleError(err.message);
   })
 }
 
@@ -205,9 +154,44 @@ function App() {
     setError("");
   }
 
+  const updateSuccess = (success) => {
+    setSuccess(success);
+  }
+  
+  const updateError = (error) => {
+    setError(error);
+  }
+
+  const closeCreatePlaylistModal = () => {
+    setShowModal(false)
+    setPlaylistName("")
+    setPlaylistDescription("")
+  }
+
+  const handlePlaylistCreation = (error) => {
+    closeCreatePlaylistModal();
+    if (error) {
+      setError(error);
+    } else {
+      setSuccess(true);
+    }
+  }
+
+  const handlePlaylistNameChange = (e) => {
+    setPlaylistName(e.target.value);
+  }
+
+  const handlePlaylistDescriptionChange = (e) => {
+    setPlaylistDescription(e.target.value);
+  }
+
   return (
     <div data-theme={currentTheme} className="App">
       <header className="App-header">
+        <div className="header-container">
+          <h1>Get your top tracks</h1>
+          {isTaylorVersion && <h6>(Taylor's Version)</h6>}
+        </div>
         <div className ="left-div">
           <div className="radio-group">
             <div className="gr">
@@ -231,16 +215,15 @@ function App() {
           </div>
           {isTaylorVersion && <ThemeDropdown theme={theme} setTheme={setTheme}/>}
         </div>
-        <div className="header-container">
-          <h1>Get your top tracks</h1>
-          {isTaylorVersion && <h6>(Taylor's Version)</h6>}
-        </div>
         {token && <button onClick={logout}>Log out</button>}
       </header>
       {token ? <div className="content">
         <div className="filter-bar">
-            {!isTaylorVersion && <label className="limit" for="limit">Limit: </label>}
-            {!isTaylorVersion && <input type="number" id="limit" onChange={(e) => setLimit(e.target.value)} value={limit} min="0" max="50"/>}
+            {!isTaylorVersion && 
+            <div className="limit">
+                <label className="limit" for="limit">Limit: </label>
+                <input type="number" id="limit" onChange={(e) => setLimit(e.target.value)} value={limit} min="0" max="50"/>
+            </div>}
             <select id="time-range" value={timeRange} onChange={(e) => setTimeRange(e.target.value)}>
               <option value="short_term">Last 4 weeks</option>
               <option value="medium_term">Last 6 months</option>
@@ -248,7 +231,7 @@ function App() {
             </select>
             <button disabled={limit < 0 || limit > 50 || showModal || success || error} onClick={() => {
               if (!isTaylorVersion) {
-                getTopTracks(token, timeRange, limit, setTopTracks, setError)
+                getTopTracks(token, timeRange, limit, setTopTracks, updateError)
               } else {
                 getTopTaylorTracks(token, timeRange, setTopTracks, setError)
               }
@@ -262,9 +245,20 @@ function App() {
                 <a className="login-link" href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Connect to Spotify</a>
               </div>
               }
-              {showModal && <Modal setError={setError} setSuccess={setSuccess} tracks={topTracks} playlistName={playlistName} setPlaylistName={setPlaylistName} playlistDescription={playlistDescription} setPlaylistDescription={setPlaylistDescription} setShowModal={setShowModal} addTracksToNewPlaylist={addTracksToNewPlaylist} token={token}/>}
-              {success && <SuccessModal setSuccess={setSuccess}/>}
-              {error && <ErrorModal message={error} setError={setError}/>}
+              {showModal && 
+                <CreatePlaylistModal 
+                  handlePlaylistCreation={handlePlaylistCreation} 
+                  tracks={topTracks} 
+                  playlistName={playlistName} 
+                  handlePlaylistNameChange={handlePlaylistNameChange} 
+                  playlistDescription={playlistDescription} 
+                  handlePlaylistDescriptionChange={handlePlaylistDescriptionChange} 
+                  handleClose={closeCreatePlaylistModal} 
+                  addTracksToNewPlaylist={addTracksToNewPlaylist} 
+                  token={token}
+                />}
+              {success && <SuccessModal handleClose={() => updateSuccess(false)}/>}
+              {error && <ErrorModal message={error} handleClose={() => updateError("")}/>}
       <footer>
         <div>
           <a href="https://github.com/sophiali23" target="_blank">GitHub</a>

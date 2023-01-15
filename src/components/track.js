@@ -1,5 +1,4 @@
-import {useEffect, useState} from "react";
-import './App.css';
+import '../App.css';
 
 const formatSecs = (secs) => secs < 10 ? '0' + String(secs) : String(secs);
 
