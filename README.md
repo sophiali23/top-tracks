@@ -5,7 +5,7 @@ This web app allows users to get their top tracks on Spotify. They can choose th
 
 <img width="1422" alt="Screen Shot 2023-01-15 at 3 37 22 AM" src="https://user-images.githubusercontent.com/46455728/212538494-91f321cc-c08c-4790-b78c-b13876626bea.png">
 
-Users also have the ability to create a new playlist with their top tracks.
+Users also have the ability to create a new playlist of their top tracks.
 
 <img width="1416" alt="Screen Shot 2023-01-15 at 3 45 44 AM" src="https://user-images.githubusercontent.com/46455728/212538742-9c8d3cdc-efcf-477f-ae4b-6aebdb5567c1.png">
 
