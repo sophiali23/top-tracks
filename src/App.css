@@ -96,7 +96,7 @@ header {
   grid-row: 1 / 1;
 }
 
-.App-header button {
+header button {
   grid-column: -1 / 3;
   grid-row: 1 / 1;
   width: fit-content;
