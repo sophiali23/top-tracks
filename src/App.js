@@ -12,7 +12,7 @@ import VersionRadioGroup from "./components/versionRadioGroup.js";
 import SettingsBar from "./components/settingsBar.js";
 
 const CLIENT_ID = "563ac9e8b72c42a2a8094f156ce2e8ac";
-const REDIRECT_URI = "http://localhost:3000"; // TO DO: update
+const REDIRECT_URI = "https://sophiali23.github.io/top-tracks";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 const SCOPES = [
