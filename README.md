@@ -1,7 +1,7 @@
 # Top Tracks
 Try it [here](https://sophiali23.github.io/top-tracks)!
 
-This web app allows users to get their top tracks on Spotify. They can choose the time period and the number of tracks they would like to see.
+This web app allows users to get their top tracks on Spotify. According to Spotify's [documentation](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-users-top-artists-and-tracks), top tracks are based on calculated affinity. Users can choose the time period and the number of tracks they would like to see. Additionally, users can listen to a preview of each track.
 
 <img width="1422" alt="Screen Shot 2023-01-15 at 3 37 22 AM" src="https://user-images.githubusercontent.com/46455728/212538494-91f321cc-c08c-4790-b78c-b13876626bea.png">
 
