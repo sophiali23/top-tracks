@@ -187,7 +187,8 @@ a.preview-link:hover {
 }
 
 button, select, input, label {
-  font-family: optima;
+  font-weight: normal;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 .login-link {
@@ -386,4 +387,5 @@ dialog h2 {
   gap: 6px;
   align-items: center;
   color: var(--text-colour);
+  font-size: 14px;
 }
