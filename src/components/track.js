@@ -1,4 +1,18 @@
 import "../App.css";
+import styled from "styled-components";
+
+const BoldText = styled.p`
+  font-weight: bold;
+`;
+
+const Rank = styled.p`
+  width: 3%;
+  text-align: right;
+`;
+
+const TrackImage = styled.img`
+  margin-left: 4px;
+`;
 
 const formatSecs = (secs) => (secs < 10 ? "0" + String(secs) : String(secs));
 
@@ -8,19 +22,19 @@ const Track = ({ rank, name, artists, duration, previewUrl, imageUrl }) => {
   const secs = formatSecs(Math.floor((duration / 1000) % 60));
   return (
     <div className="track-container">
-      <p className="rank">{rank}</p>
-      <img className="cover" src={imageUrl} width="40px" height="40px"></img>
+      <Rank>{rank}</Rank>
+      <TrackImage src={imageUrl} width="40px" height="40px"></TrackImage>
       <div className="text-container">
-        <p className="bold-text">{name}</p>
+        <BoldText>{name}</BoldText>
         <p>{artistsText}</p>
       </div>
       <div className="time-container">
         <a className="preview-link" href={previewUrl} target="_blank">
           Preview
         </a>
-        <p className="bold-text">
+        <BoldText>
           {mins}:{secs}
-        </p>
+        </BoldText>
       </div>
     </div>
   );

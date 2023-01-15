@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styled from 'styled-components'
+import styled from "styled-components";
 import "./App.css";
 import axios from "axios";
 
@@ -120,7 +120,6 @@ const getTopTaylorTracks = async (
       },
     })
     .then((result) => {
-      console.log(result);
       updateTopTracks(
         result.data.items
           .filter((item) =>
@@ -142,6 +141,22 @@ const getTopTaylorTracks = async (
       handleError(err.message);
     });
 };
+
+const LeftHeaderSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+  margin: 16px auto 0px 16px;
+  gap: 10px;
+  align-self: flex-start;
+  text-align: left;
+`;
+
+const Subheading = styled.h6`
+  font-weight: 500;
+  margin: 0px 0px 10px 0px;
+`;
 
 function App() {
   const [token, setToken] = useState("");
@@ -201,13 +216,9 @@ function App() {
     setError("");
   };
 
-  const updateSuccess = (success) => {
-    setSuccess(success);
-  };
+  const updateSuccess = (success) => setSuccess(success);
 
-  const updateError = (error) => {
-    setError(error);
-  };
+  const updateError = (error) => setError(error);
 
   const closeCreatePlaylistModal = () => {
     setShowModal(false);
@@ -215,9 +226,7 @@ function App() {
     setPlaylistDescription("");
   };
 
-  const updateShowModal = (showModal) => {
-    setShowModal(showModal);
-  };
+  const updateShowModal = (showModal) => setShowModal(showModal);
 
   const handlePlaylistCreation = (error) => {
     closeCreatePlaylistModal();
@@ -228,25 +237,16 @@ function App() {
     }
   };
 
-  const handlePlaylistNameChange = (e) => {
-    setPlaylistName(e.target.value);
-  };
+  const handlePlaylistNameChange = (e) => setPlaylistName(e.target.value);
 
-  const handlePlaylistDescriptionChange = (e) => {
+  const handlePlaylistDescriptionChange = (e) =>
     setPlaylistDescription(e.target.value);
-  };
 
-  const updateTopTracks = (tracks) => {
-    setTopTracks(tracks);
-  };
+  const updateTopTracks = (tracks) => setTopTracks(tracks);
 
-  const handleLimitChange = (e) => {
-    setLimit(e.target.value);
-  };
+  const handleLimitChange = (e) => setLimit(e.target.value);
 
-  const handleTimeRangeChange = (e) => {
-    setTimeRange(e.target.value);
-  };
+  const handleTimeRangeChange = (e) => setTimeRange(e.target.value);
 
   const getResults = () => {
     if (!isTaylorVersion) {
@@ -267,9 +267,9 @@ function App() {
       <header className="App-header">
         <div className="header-container">
           <h1>Get your top tracks</h1>
-          {isTaylorVersion && <h6>(Taylor's Version)</h6>}
+          {isTaylorVersion && <Subheading>(Taylor's Version)</Subheading>}
         </div>
-        <div className="left-div">
+        <LeftHeaderSection>
           <VersionRadioGroup
             isTaylorVersion={isTaylorVersion}
             handleVersionChange={handleVersionChange}
@@ -277,7 +277,7 @@ function App() {
           {isTaylorVersion && (
             <ThemeDropdown theme={theme} setTheme={setTheme} />
           )}
-        </div>
+        </LeftHeaderSection>
         {token && <button onClick={logout}>Log out</button>}
       </header>
       {token ? (

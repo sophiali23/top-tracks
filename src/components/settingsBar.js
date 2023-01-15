@@ -1,4 +1,18 @@
 import "../App.css";
+import styled from "styled-components";
+
+const Bar = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0px;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const NumStepper = styled.input`
+  min-width: 30px;
+`;
 
 const SettingsBar = ({
   showLimit,
@@ -12,13 +26,13 @@ const SettingsBar = ({
   isCreatePlaylistButtonDisabled,
 }) => {
   return (
-    <div className="filter-bar">
+    <Bar>
       {showLimit && (
         <div className="limit">
           <label className="limit" for="limit">
             Limit:{" "}
           </label>
-          <input
+          <NumStepper
             type="number"
             id="limit"
             onChange={handleLimitChange}
@@ -46,7 +60,7 @@ const SettingsBar = ({
       >
         Create Playlist
       </button>
-    </div>
+    </Bar>
   );
 };
 

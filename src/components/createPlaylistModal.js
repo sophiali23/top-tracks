@@ -1,4 +1,35 @@
 import "../App.css";
+import styled from "styled-components";
+
+const InputContainer = styled.div`
+  display: grid;
+  grid-template-columns: max-content auto;
+  grid-template-rows: auto auto auto;
+  gap: 10px;
+  border-radius: 4px;
+  align-items: flex-start;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  width: fit-content;
+  margin-left: auto;
+`;
+
+const Modal = styled.dialog`
+  align-self: center;
+  width: 60vh;
+  height: fit-content;
+  border: 0px solid transparent;
+  border-radius: 4px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+
+  @media (max-width: 600px) {
+    width: 80%;
+  }
+`;
 
 const CreatePlaylistModal = ({
   token,
@@ -12,8 +43,8 @@ const CreatePlaylistModal = ({
   handlePlaylistCreation,
 }) => {
   return (
-    <dialog className="modal" open>
-      <div className="t-container">
+    <Modal open>
+      <InputContainer>
         <label for="name">Name</label>
         <input
           id="name"
@@ -29,8 +60,8 @@ const CreatePlaylistModal = ({
           value={playlistDescription}
           onChange={handlePlaylistDescriptionChange}
         />
-      </div>
-      <div className="buttons">
+      </InputContainer>
+      <ButtonContainer>
         <button
           disabled={playlistName.length === 0}
           onClick={() => {
@@ -53,8 +84,8 @@ const CreatePlaylistModal = ({
         <button className="cancel" onClick={() => handleClose()}>
           Cancel
         </button>
-      </div>
-    </dialog>
+      </ButtonContainer>
+    </Modal>
   );
 };
 
