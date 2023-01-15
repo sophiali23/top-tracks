@@ -82,7 +82,7 @@
   min-width: 340px;
 }
 
-.App-header {
+header {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: center;

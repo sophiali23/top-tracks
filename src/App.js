@@ -264,7 +264,7 @@ function App() {
 
   return (
     <div data-theme={currentTheme} className="App">
-      <header className="App-header">
+      <header>
         <div className="header-container">
           <h1>Get your top tracks</h1>
           {isTaylorVersion && <Subheading>(Taylor's Version)</Subheading>}
