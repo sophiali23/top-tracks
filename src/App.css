@@ -1,3 +1,5 @@
+/* TO DO: move over to using styled components */
+
 :root, [data-theme="midnights"] {
   --background: linear-gradient(90deg, rgba(184,172,209,1) 23%, rgba(226,213,241,1) 51%, rgba(201,232,253,1) 79%);
   --text-colour: white;

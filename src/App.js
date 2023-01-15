@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styled from 'styled-components'
 import "./App.css";
 import axios from "axios";
 
@@ -186,7 +187,7 @@ function App() {
     setSuccess(false);
     setError("");
     setToken("");
-    window.localStorage.removeItem("token"); // TO DO: window.localStorage vs localStorage
+    window.localStorage.removeItem("token");
   };
 
   const setDefault = () => {
@@ -260,8 +261,6 @@ function App() {
     setIsTaylorVersion(isTaylorVersion);
     setDefault();
   };
-
-  // TO DO: css
 
   return (
     <div data-theme={currentTheme} className="App">
