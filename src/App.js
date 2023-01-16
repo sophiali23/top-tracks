@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
-import axios from "axios";
 
-import TrackList from "./components/tracklist.js";
-import ThemeDropdown from "./components/themeDropdown.js";
-import SuccessModal from "./components/successModal.js";
-import ErrorModal from "./components/errorModal.js";
-import CreatePlaylistModal from "./components/createPlaylistModal.js";
-import VersionRadioGroup from "./components/versionRadioGroup.js";
-import SettingsBar from "./components/settingsBar.js";
+import TrackList from "./components/tracklist";
+import ThemeDropdown from "./components/themeDropdown";
+import SuccessModal from "./components/successModal";
+import ErrorModal from "./components/errorModal";
+import CreatePlaylistModal from "./components/createPlaylistModal";
+import VersionRadioGroup from "./components/versionRadioGroup";
+import SettingsBar from "./components/settingsBar";
+import getTopTracks from "./utils/get-top-tracks";
+import getTopTaylorTracks from "./utils/get-top-taylor-tracks";
+import addTracksToNewPlaylist from "./utils/add-tracks-to-new-playlist";
 
 const CLIENT_ID = "563ac9e8b72c42a2a8094f156ce2e8ac";
-const REDIRECT_URI = "https://sophiali23.github.io/top-tracks";
+const REDIRECT_URI = "http://localhost:3000";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 const SCOPES = [
@@ -23,124 +25,6 @@ const SCOPES = [
   "user-read-email",
 ];
 const SCOPE = SCOPES.join(" ");
-
-const addTracksToNewPlaylist = async (
-  token,
-  tracks,
-  playlistName,
-  playlistDescription
-) => {
-  if (tracks.length > 0) {
-    const userResponse = await axios.get("https://api.spotify.com/v1/me", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const playlistResponse = await axios.post(
-      "https://api.spotify.com/v1/users/" + userResponse.data.id + "/playlists",
-      {
-        name: playlistName,
-        description: playlistDescription,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const addTracksResponse = await axios.post(
-      "https://api.spotify.com/v1/playlists/" +
-        playlistResponse.data.id +
-        "/tracks",
-      {
-        uris: tracks.map((track) => track.uri),
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return addTracksResponse;
-  }
-};
-
-const getTopTracks = async (
-  token,
-  timeRange,
-  limit,
-  updateTopTracks,
-  handleError
-) => {
-  await axios
-    .get("https://api.spotify.com/v1/me/top/tracks", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        time_range: timeRange,
-        limit: limit,
-        offset: 0,
-      },
-    })
-    .then((result) => {
-      updateTopTracks(
-        result.data.items.map((item, index) => ({
-          rank: index + 1,
-          id: item.id,
-          uri: item.uri,
-          name: item.name,
-          artists: item.artists.map((artist) => artist.name),
-          duration: item.duration_ms,
-          imageUrl: item.album.images[0].url,
-          previewUrl: item.preview_url,
-        }))
-      );
-    })
-    .catch((err) => {
-      handleError(err.message);
-    });
-};
-
-const getTopTaylorTracks = async (
-  token,
-  timeRange,
-  updateTopTracks,
-  handleError
-) => {
-  await axios
-    .get("https://api.spotify.com/v1/me/top/tracks", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        time_range: timeRange,
-        limit: 50,
-        offset: 0,
-      },
-    })
-    .then((result) => {
-      updateTopTracks(
-        result.data.items
-          .filter((item) =>
-            item.artists.map((artist) => artist.name).includes("Taylor Swift")
-          )
-          .map((item, index) => ({
-            rank: index + 1,
-            id: item.id,
-            uri: item.uri,
-            name: item.name,
-            artists: item.artists.map((artist) => artist.name),
-            duration: item.duration_ms,
-            imageUrl: item.album.images[0].url,
-            previewUrl: item.preview_url,
-          }))
-      );
-    })
-    .catch((err) => {
-      handleError(err.message);
-    });
-};
 
 const LeftHeaderSection = styled.div`
   display: flex;

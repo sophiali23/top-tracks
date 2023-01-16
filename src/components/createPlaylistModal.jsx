@@ -71,7 +71,7 @@ const CreatePlaylistModal = ({
               playlistName,
               playlistDescription
             )
-              .then((result) => {
+              .then((_) => {
                 handlePlaylistCreation();
               })
               .catch((err) => {
