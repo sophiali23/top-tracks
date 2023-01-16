@@ -1,7 +1,9 @@
-# Top Tracks
+# Top Tracks 🎶🎵
 Since this app is still in development mode, Spotify requires me to add users to an allowlist in order to successfully make the API requests. If you're interested in trying it out, feel free to email me at sophiali99723@gmail.com so I can add you to the list!
 
 This web app allows users to get their top tracks on Spotify. According to Spotify's [documentation](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-users-top-artists-and-tracks), top tracks are based on calculated affinity. Users can choose the time period and the number of tracks they would like to see. Additionally, users can listen to a preview of each track.
+
+<img width="1415" alt="Screen Shot 2023-01-16 at 1 51 48 AM" src="https://user-images.githubusercontent.com/46455728/212649018-1b91a2fe-a4f4-4cbb-9bfa-402ba7e666aa.png">
 
 <img width="1422" alt="Screen Shot 2023-01-15 at 3 37 22 AM" src="https://user-images.githubusercontent.com/46455728/212538494-91f321cc-c08c-4790-b78c-b13876626bea.png">
 
