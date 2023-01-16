@@ -216,9 +216,6 @@ function App() {
           <a href="https://github.com/sophiali23" target="_blank">
             GitHub
           </a>
-          <a href="https://ko-fi.com/sophia_li" target="_blank">
-            Donate
-          </a>
         </div>
       </footer>
     </div>
