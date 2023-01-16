@@ -1,5 +1,5 @@
 import "../App.css";
-import Track from "./track";
+import Track from "./Track";
 import styled from "styled-components";
 
 const Container = styled.div`
